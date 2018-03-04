@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <main class="hero-section">
+    <div class="container">
+      
+      <div class="section-content">
+        <table>
+          <thead>
+            <th>Campaigns</th>
+          </thead>
+          <tbody>
+            {% for line in campaign_list %}
+                <tr><td><a href="campaigns/{{line}}">{{ line }}</a></td></tr>
+             {% endfor %}
+          </tbody>
+      </div>
+      
+      <div class="clearfix"></div>
+
+    </div>
+  </main>
+{% endblock %}
