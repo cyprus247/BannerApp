@@ -33,3 +33,21 @@ def get_conversion_banners(campaign_id):
 		rows_list.append(row[0]) 
 	conn.close()
 	return rows_list
+
+def get_lazy_banners(campaign_id):
+	""" this will return an ordered list of the banner_ids 
+	 by their number of impressions """
+	conn = psycopg2.connect(host="ec2-23-21-198-69.compute-1.amazonaws.com",dbname="daccvcf9bv8j6n", user="nshkapmqhsqoae", password="79f70cb476b17b1ae0db8753bc4011565f80242c94e139b5877c3baa86d4e96e")
+	cur = conn.cursor()
+	cur.execute(""" select i.banner_id,count(i.banner_id) from impressions i
+					where i.campaign_id = {}
+					and quarter_file = {}
+					group by i.banner_id
+					order by count(i.banner_id) desc
+					""".format(campaign_id,get_quarter()))
+	rows = cur.fetchall()
+	rows_list = []
+	for row in rows:
+		rows_list.append(row[0]) 
+	conn.close()
+	return rows_list

@@ -29,9 +29,16 @@ def campaigns():
 def serve_ad(campaign_id):
 	import random
 	banners= db_queries.get_conversion_banners(campaign_id)
+	lazy_banners = db_queries.get_lazy_banners(campaign_id)
 	if len(banners) > 10:
 		banners = banners[:10]
-		final_banner = random.choice(banners)
+	elif len(banners) in range(5,9):
+		banners = banners #just for symmetry 
+	elif len(banners) in range (1,4):
+		banners = banners + lazy_banners[:5]
+	elif len(banners) == 0:
+		banners = lazy_banners[:5]
+	final_banner = random.choice(banners)
 	return render_template("banner_ad.html", banner_id=final_banner)     	
     
 
